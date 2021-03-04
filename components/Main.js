@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchUser } from './../redux/actions/index'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import FeedScreen from './main/Feed'
+
+const Tab = createBottomTabNavigator()
 
 // TODO change this to function comp
 export class Main extends Component {
@@ -13,13 +16,12 @@ export class Main extends Component {
   }
 
   render() {
-    const { currentUser } = this.props
-    console.log(currentUser)
+    // const { currentUser } = this.props
+
     return (
-      <View style={styles.container}>
-        {/* Put a spinner here */}
-        <Text>User is logged {JSON.stringify(currentUser)}</Text> 
-      </View>
+      <Tab.Navigator>
+        <Tab.Screen name="Feed" component={FeedScreen} />
+      </Tab.Navigator>
     )
   }
 }

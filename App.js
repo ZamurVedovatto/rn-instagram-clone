@@ -25,15 +25,12 @@ import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './redux/reducers'
 import thunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(thunk))
-
-
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
-
 const StackNavigator = createStackNavigator()
 
 // TODO change it to function comp and use hooks
@@ -76,7 +73,7 @@ export default class App extends Component {
       return (
         <NavigationContainer>
           <StackNavigator.Navigator initialRouteName="Landing" >
-            <StackNavigator.Screen name="Landing" component={LandingScreen} options={{ headerShown: true }} />
+            <StackNavigator.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
             <StackNavigator.Screen name="Register" component={RegisterScreen} options={{ headerShown: true }} />
             <StackNavigator.Screen name="Login" component={LoginScreen} options={{headerShown: true}} />
           </StackNavigator.Navigator>
@@ -85,7 +82,11 @@ export default class App extends Component {
     }
     return (
       <Provider store={store}>
-        <MainScreen />
+        <NavigationContainer>
+          <StackNavigator.Navigator initialRouteName="Main" >
+            <StackNavigator.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
+          </StackNavigator.Navigator>
+        </NavigationContainer>
       </Provider>
     )
   }
