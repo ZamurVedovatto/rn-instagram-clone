@@ -13,17 +13,23 @@ export class Main extends Component {
   }
 
   render() {
+    const { currentUser } = this.props
+    console.log(currentUser)
     return (
       <View style={styles.container}>
         {/* Put a spinner here */}
-        <Text>User is logged</Text> 
+        <Text>User is logged {JSON.stringify(currentUser)}</Text> 
       </View>
     )
   }
 }
 
+const mapStateToProps = (store) => ({
+  currentUser: store.userState.currentUser
+})
+
 const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser }, dispatch)
-export default connect(null, mapDispatchProps)(Main)
+export default connect(mapStateToProps, mapDispatchProps)(Main)
 
 const styles = StyleSheet.create({
   container: {
