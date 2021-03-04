@@ -2,30 +2,23 @@ import React, { Component, useState } from 'react'
 import { StyleSheet, View, Button, TextInput } from 'react-native'
 import firebase from 'firebase'
 
-export default class Register extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.onSignUp = this.onSignUp.bind(this)
+    this.onSignIn = this.onSignIn.bind(this)
   }
 
   state = {
-    name: "",
     email: "",
     password: ""
   }
 
-  onSignUp = () => {
+  onSignIn = () => {
     const {name, email, password} = this.state
     console.log(name, email, password)
     console.log(this.state)
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+    firebase.auth().signInWithEmailAndPassword(email, password)
       .then((result) => {
-        firebase.firestore().collection("users")
-          .doc(firebase.auth().currentUser.uid)
-          .set({
-            name,
-            email
-          })
         console.log(result)
       })
       .catch(err => console.log(err))
@@ -35,10 +28,6 @@ export default class Register extends Component {
     return (
       <View style={styles.container}>
         <TextInput
-          placeholder="name"
-          onChangeText={(name) => this.setState({ name })}
-        />
-        <TextInput
           placeholder="email"
           onChangeText={(email) => this.setState({ email })}
         />
@@ -47,7 +36,7 @@ export default class Register extends Component {
           secureTextEntry={true}
           onChangeText={(password) => this.setState({ password })}
         />
-        <Button title="Sign up" onPress={() => this.onSignUp()} />
+        <Button title="Sign in" onPress={() => this.onSignIn()} />
       </View>
     )
   }
