@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 
 export default function Add() {
   const [hasPermission, setHasPermission] = useState(null);
+  const [camera, setCamera] = useState(null);
+  const [image, setImage] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.back);
 
   useEffect(() => {
@@ -13,6 +15,13 @@ export default function Add() {
     })();
   }, []);
 
+  const takePicture = async () => {
+    if (camera) {
+      const data = await camera.takePictureAsync(null);
+      setImage(data.uri);
+    }
+  }
+
   if (hasPermission === null) {
     return <View />;
   }
@@ -20,22 +29,31 @@ export default function Add() {
     return <Text>No access to camera</Text>;
   }
   return (
-    <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
-        </View>
-      </Camera>
+    <View style={styles.container}> 
+      <View style={styles.cameraContainer}>
+        <Camera
+          ref={ref => setCamera(ref)}
+          style={styles.fixedRadioTag}
+          type={type}
+          ratio={'1:1'}
+          />
+      </View>
+      <Button
+        title="Flip Image"
+        style={styles.button}
+        onPress={() => {
+          setType(
+            type === Camera.Constants.Type.back
+              ? Camera.Constants.Type.front
+              : Camera.Constants.Type.back
+          );
+        }}>
+      </Button>
+      <Button
+        title="Take Picture"
+        onPress={() => takePicture()}
+      />
+      {image &&  <Image source={{ uri: image }} style={styles.image} />}
     </View>
   );
 }
@@ -44,8 +62,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  camera: {
+  cameraContainer: {
     flex: 1,
+    flexDirection: 'row'
+  },
+  fixedRadioTag: {
+    flex: 1,
+    aspectRatio: 1
   },
   buttonContainer: {
     flex: 1,
@@ -62,4 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
   },
+  image: {
+    flex: 1
+  }
 });
