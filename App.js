@@ -13,7 +13,7 @@ const firebaseConfig = {
   measurementId: "G-LDGGYTJTB7"
 }
 firebase.initializeApp(firebaseConfig)
-firebase.analytics()
+// firebase.analytics()
 // TODO set this conditional
 // if(firebase?.apps?.length === 0) {
 //   firebase.initializeApp(firebaseConfig)
