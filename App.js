@@ -86,7 +86,7 @@ export default class App extends Component {
       <Provider store={store}>
         <NavigationContainer>
           <StackNavigator.Navigator initialRouteName="Main" >
-            <StackNavigator.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
+            <StackNavigator.Screen name="Main" component={MainScreen} />
             <StackNavigator.Screen name="Add" component={AddScreen} navigation={this.props.navigation} />
             <StackNavigator.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} />
           </StackNavigator.Navigator>

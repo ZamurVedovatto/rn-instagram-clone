@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, FlatList } from 'react-native-vector-icons'
+import { View, Text, TextInput, FlatList } from 'react-native'
 import firebase from 'firebase'
-import { get } from 'react-native/Libraries/Utilities/PixelRatio'
 require('firebase/firestore')
 
 export default function Search() {
   const [users, setUsers] = useState([])
 
-  const fetchUsers = async (search) => {
+  const fetchUsers = (search) => {
+    console.log(search)
     firebase.firestore()
       .collection("users")
       .where("name", ">=", search)
@@ -24,7 +24,15 @@ export default function Search() {
 
   return (
     <View>
-      <Text>Search</Text>      
+      <TextInput placeholder="Type Here" onChangeText={(search) => fetchUsers(search)} />
+      <FlatList
+        numColuns={1}
+        horizontal={false}
+        data={users}
+        renderItem={({item}) => {
+          <Text>{item.name}</Text>
+        }}
+      />
     </View>
   )
 }

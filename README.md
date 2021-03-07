@@ -1,4 +1,4 @@
-https://www.youtube.com/watch?v=1hPgQWbWmEk&ab_channel=freeCodeCamp.org (1'42'')
+https://www.youtube.com/watch?v=1hPgQWbWmEk&ab_channel=freeCodeCamp.org (3'24'')
 
 https://reactnavigation.org/
 
