@@ -16,8 +16,6 @@ export default class Register extends Component {
 
   onSignUp = () => {
     const {name, email, password} = this.state
-    console.log(name, email, password)
-    console.log(this.state)
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((result) => {
         firebase.firestore().collection("users")
@@ -26,7 +24,6 @@ export default class Register extends Component {
             name,
             email
           })
-        console.log(result)
       })
       .catch(err => console.log(err))
   }
