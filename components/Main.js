@@ -7,9 +7,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FeedScreen from './main/Feed'
 import ProfileScreen from './main/Profile'
-import AddScreen from './main/Add'
 
 const Tab = createBottomTabNavigator()
+
+const EmptyScreen = () => {
+  return(null)
+}
 
 // TODO change this to function comp
 export class Main extends Component {
@@ -33,8 +36,14 @@ export class Main extends Component {
           }}
         />
         <Tab.Screen
-          name="Add"
-          component={AddScreen} 
+          name="AddContainer"
+          component={EmptyScreen}
+          listeners={({ navigation }) => ({
+            tabPress: event => {
+              event.preventDefault();
+              navigation.navigate("Add")
+            }
+          })}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="plus-box" color={color} size={26} />
