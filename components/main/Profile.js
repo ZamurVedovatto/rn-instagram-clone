@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
+import { StyleSheet, Text, View, Image, FlatList, Button } from 'react-native'
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 require('firebase/firestore')
@@ -7,7 +7,7 @@ require('firebase/firestore')
 function Profile(props) {
   const [userPosts, setUserPosts] = useState([])
   const [user, setUser] = useState(null)
-  
+  const [following, setFollowing] = useState([])
 
   useEffect(() => {
     const { currentUser, posts } = props;
@@ -49,11 +49,48 @@ function Profile(props) {
   if (user === null) {
     return <View />
   }
+
+  const onFollow = () => {
+    firebase.firestore()
+      .collection('following')
+      .doc(firebase.auth().currentUser.uid)
+      .collection('userFollowing')
+      .doc(props.route.params.uid)
+      .set({})
+  }
+  const onUnfollow = () => {
+    firebase.firestore()
+      .collection('following')
+      .doc(firebase.auth().currentUser.uid)
+      .collection('userFollowing')
+      .doc(props.route.params.uid)
+      .delete()
+  }
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
         <Text>{user.name}</Text>
         <Text>{user.email}</Text>
+        {
+          props.route.params.uid !== firebase.auth().currentUser.uid ? (
+            <View>
+              {
+                following ? (
+                  <Button
+                    title="Following"
+                    onPress={() => onUnfollow() }
+                  />
+                ) :
+                (
+                  <Button
+                  title="Following"
+                  onPress={() => onFollow() }
+                />
+                )
+              }
+            </View>
+          ) : null          
+        }
       </View>
       <View style={styles.galleryContainer}>
         <FlatList
