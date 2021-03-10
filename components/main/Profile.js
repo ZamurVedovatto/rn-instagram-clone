@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 function Profile(props) {
   const { currentUser, posts } = props;
-  console.log({ currentUser, posts })
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
