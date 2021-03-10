@@ -44,7 +44,13 @@ function Profile(props) {
           setUserPosts(posts)
         })
     }
-  }, [props.route.params.uid])
+
+    if(props.following.indexOf(props.route.params.uid) > -1) {
+      setFollowing(true)
+    } else {
+      setFollowing(false)
+    }
+  }, [props.route.params.uid, props.following])
 
   if (user === null) {
     return <View />
@@ -83,7 +89,7 @@ function Profile(props) {
                 ) :
                 (
                   <Button
-                  title="Following"
+                  title="Follow"
                   onPress={() => onFollow() }
                 />
                 )
@@ -113,7 +119,8 @@ function Profile(props) {
 
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
-  posts: store.userState.posts
+  posts: store.userState.posts,
+  following: store.userState.following,
 })
 
 export default connect(mapStateToProps, null)(Profile);
